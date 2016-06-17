@@ -1,0 +1,42 @@
+from InstagramAPI import InstagramAPI
+import time
+import json
+import random
+
+InstagramAPI = InstagramAPI("login", "password")
+InstagramAPI.login()
+
+# get following to json
+InstagramAPI.getSelfUsersFollowing()
+media_id = InstagramAPI.LastJson
+
+#favorite list
+favorites = ['1111',
+             '2222',
+             '3333',
+             '4444',]
+
+#some lists
+endlist = []
+newlist = []
+
+#bug here (only 200 max???)
+#get following id
+if 'users' in media_id:
+    for user in media_id['users']:
+        newlist.append(user['pk'])
+
+#create final list
+endlist = set.difference(set(newlist), set(favorites))
+
+print ('Number of unnecessary subscriptions:',len(endlist),'\n')
+
+#use api to unfollow
+for items in endlist:
+    a = random.randrange(2,30)
+    InstagramAPI.unfollow(items)
+    print ('Done. Wait',31+a,'sec')
+    time.sleep(31+a)
+
+
+print ('All done.')
